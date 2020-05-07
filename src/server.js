@@ -19,7 +19,7 @@ let database = new Sequelize({
 // id, createdAt, and updatedAt are added by sequelize automatically
 var User = database.define('User', {
   username: Sequelize.STRING,
-  requested_resturant: Sequelize.DATE
+  requested_resturant: Sequelize.STRING
 });
 
 // Initialize finale
@@ -28,10 +28,13 @@ finale.initialize({
   sequelize: database
 })
 
-// Create the dynamic REST resource for our Post model
 var userResource = finale.resource({
   model: User,
-  endpoints: ['/users', '/users/:id']
+  endpoints: ['/users', '/users/:id'],
+  search: {
+    param: 'searchByRestorant',
+    attributes: [ 'requested_resturant' ]
+  }
 });
 
 userResource.create	
